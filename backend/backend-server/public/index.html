@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parallal Name Lookup (NDN) System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #1E1E1E; /* Dark background color */
+            color: #FFFFFF; /* Light text color */
+        }
+        h1 {
+            color: teal; /* Teal heading color */
+        }
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        button {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #1E1E1E; /* Dark button background color */
+            color: #FFFFFF; /* White button text color */
+        }
+    </style>
+</head>
+<body>
+    <h1>Parallal Name Lookup (NDN) System</h1>
+    
+    <button onclick="insertName()">1) Insert Name</button>
+    <button onclick="lookupName()">2) Lookup Name</button>
+    <button onclick="deleteName()">3) Delete Name</button>
+    <button onclick="printNPT()">4) Print NPT</button>
+    <button onclick="printAccessProbabilities()">5) Print Access Probabilities</button>
+    <button onclick="printAverageAccessProbability()">6) Print Average Access Probability</button>
+    <button onclick="saveNPTToFile()">7) Save NPT to File</button>
+    <button onclick="exitProgram()">8) Exit</button>
+
+    <div id="output"></div>
+
+    <script>
+        function sendRequest(choice, name) {
+            fetch('/execute', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ choice: choice, name: name }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('output').innerText = data.output;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function insertName() {
+            const name = prompt("Enter name to insert:");
+            if (name !== null) {
+                sendRequest(1, name);
+            }
+        }
+
+        function lookupName() {
+            const name = prompt("Enter name to lookup:");
+            if (name !== null) {
+                sendRequest(2, name);
+            }
+        }
+
+        function deleteName() {
+            const name = prompt("Enter name to delete:");
+            if (name !== null) {
+                sendRequest(3, name);
+            }
+        }
+
+        function printNPT() {
+            sendRequest(4, "");
+        }
+
+        function printAccessProbabilities() {
+            sendRequest(5, "");
+        }
+
+        function printAverageAccessProbability() {
+            sendRequest(6, "");
+        }
+
+        function saveNPTToFile() {
+            sendRequest(7, "");
+        }
+
+        function exitProgram() {
+            sendRequest(8, "");
+        }
+    </script>
+</body>
+</html>
